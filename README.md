@@ -5,18 +5,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`c3`](https:
 First, run the development server:
 
 ```bash
-
-🔍 View Project
-Visit: https://dropbin.pages.dev
-
-Start dev server: pnpm run dev
-Deploy again: pnpm run deploy
-
-📖 Explore Documentation
-https://developers.cloudflare.com/pages
-
-💬 Join our Community
-https://discord.cloudflare.com
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
