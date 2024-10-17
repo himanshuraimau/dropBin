@@ -1,31 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import User, { IUser } from '@/models/userModel';
+import { nanoid } from 'nanoid';
 
-export const runtime = 'edge';
 
-export async function GET() {
-  try {
-    await dbConnect();
-    const users: IUser[] = await User.find({});
-    return NextResponse.json({ users }, { status: 200 });
-  } catch (error) {
-    console.error('Failed to fetch users:', error);
-    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
-  }
-}
+export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
   try {
+    
     await dbConnect();
-    const body: Partial<IUser> = await request.json();
-    const user: IUser = await User.create(body);
-    return NextResponse.json({ user }, { status: 201 });
+
+   
+    const body: { text: string } = await request.json();
+
+    const user = new User({ text: body.text });
+    
+    const nanoidgen = nanoid(6);
+    user.url = nanoidgen;
+    
+    await user.save();
+
+    return NextResponse.json({ url: user.url, text: user.text, id: user._id });
+    
   } catch (error) {
-    console.error('Failed to create user:', error);
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
-    }
-    return NextResponse.json({ error: 'Failed to create user' }, { status: 500 });
+    console.error(error);
+    return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
   }
 }

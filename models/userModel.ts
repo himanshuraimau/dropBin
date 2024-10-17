@@ -1,13 +1,21 @@
 import mongoose, { Document, Model } from 'mongoose';
 
 export interface IUser extends Document {
-  name: string
+  url: string;
+  text: string;
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
-  name: { type: String, required: true },
-
-});
+   url: {
+      type: String,
+      required: true,
+      unique: true
+   },
+   text: {
+      type: String,
+      required: true,
+   }
+}, { timestamps: true });
 
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
 
