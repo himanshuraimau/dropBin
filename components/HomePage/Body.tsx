@@ -2,14 +2,15 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import axios from 'axios'
 
 const Body = () => {
     const [text, setText] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Submitted text:', text)
-   
+    const data  = await axios.post('/api/user', {text});
+    console.log(data);
   }
   return (
     <div>
