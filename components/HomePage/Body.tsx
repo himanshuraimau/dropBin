@@ -8,19 +8,19 @@ import axios from 'axios'
 const Body = () => {
   const [text, setText] = useState('')
   const [url, setUrl] = useState('')
-  const [copied, setCopied] = useState(false) // Track copy status
+  const [copied, setCopied] = useState(false) 
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
     const data  = await axios.post('/api/user', { text })
     const currentUrl = window.location.href
     setUrl(`${currentUrl}${data.data.url}`)
-    setCopied(false) // Reset copy status
+    setCopied(false) 
   }
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(url) // Copy URL to clipboard
-    setCopied(true) // Set copied status to true
+    navigator.clipboard.writeText(url) 
+    setCopied(true) 
   }
 
   return (

@@ -43,7 +43,7 @@ export default function TextFetcher() {
     navigator.clipboard.writeText(text)
       .then(() => {
         setCopied(true)
-        setTimeout(() => setCopied(false), 2000)  // Reset copy status after 2 seconds
+        setTimeout(() => setCopied(false), 2000)  
       })
       .catch(() => setCopied(false))
   }
