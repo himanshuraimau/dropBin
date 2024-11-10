@@ -4,25 +4,20 @@ import User from '@/models/userModel';
 import { nanoid } from 'nanoid';
 
 export async function POST(request: NextRequest) {
-  console.log('API route called at:', new Date().toISOString())
+  console.log('API route called')
   try {
     await dbConnect();
-    const body: { text: string, submissionId: string } = await request.json();
-    console.log('Received text:', body.text, 'Submission ID:', body.submissionId)
+    const body: { text: string } = await request.json();
+    console.log('Received text:', body.text)
     
+    const user = new User({ text: body.text });
     
-    let user = await User.findOne({ submissionId: body.submissionId });
+    const nanoidgen = nanoid(6);
+    user.url = nanoidgen;
+    console.log('Generated URL:', user.url)
     
-    if (!user) {
-      user = new User({ text: body.text, submissionId: body.submissionId });
-      const nanoidgen = nanoid(6);
-      user.url = nanoidgen;
-      console.log('Generated URL:', user.url)
-      await user.save();
-      console.log('User saved to database')
-    } else {
-      console.log('User with this submission ID already exists, returning existing URL')
-    }
+    await user.save();
+    console.log('User saved to database')
 
     return NextResponse.json({ url: user.url, text: user.text, id: user._id });
   } catch (error) {

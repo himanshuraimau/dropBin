@@ -1,8 +1,6 @@
 "use client"
 
 import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
 import axios from 'axios'
 
 const Body = () => {
@@ -10,9 +8,9 @@ const Body = () => {
   const [url, setUrl] = useState('')
   const [copied, setCopied] = useState(false) 
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async(e:any) => {
     e.preventDefault()
-    const data  = await axios.post('/api/user', { text })
+    const data = await axios.post('/api/user', { text })
     const currentUrl = window.location.href
     setUrl(`${currentUrl}${data.data.url}`)
     setCopied(false) 
@@ -28,31 +26,32 @@ const Body = () => {
       <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-8">
         <h1 className="text-3xl font-bold text-amber-800 mb-6">Drop your Text</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Textarea
+          <textarea
             placeholder="Drop your text here..."
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="w-full h-64 p-4 text-lg border-2 border-amber-200 rounded-md focus:ring-2 focus:ring-amber-300 focus:border-transparent"
+            className="w-full h-64 p-4 text-lg border-2 border-amber-200 rounded-md focus:ring-2 focus:ring-amber-300 focus:border-transparent resize-none"
           />
-          <Button 
+          <button 
             type="submit"
             className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-md transition duration-300"
           >
             Submit
-          </Button>
+          </button>
           {url && (
             <div className="flex items-center space-x-4">
-              <Textarea
+              <textarea
                 value={url}
                 readOnly
-                className="w-full h-12 p-4 text-lg border-2 border-amber-200 rounded-md focus:ring-2 focus:ring-amber-300 focus:border-transparent"
+                className="w-full h-12 p-4 text-lg border-2 border-amber-200 rounded-md focus:ring-2 focus:ring-amber-300 focus:border-transparent resize-none"
               />
-              <Button 
+              <button 
                 onClick={handleCopy} 
+                type="button"
                 className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-md transition duration-300"
               >
                 {copied ? "Copied!" : "Copy"}
-              </Button>
+              </button>
             </div>
           )}
         </form>
