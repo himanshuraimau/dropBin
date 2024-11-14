@@ -7,27 +7,11 @@ export async function POST(request: NextRequest) {
   console.log('API route called')
   try {
     await dbConnect();
-    const body: { text: string, expiration: "12 hours" | "1 day" | "1 week" } = await request.json();
+    const body: { text: string,  } = await request.json();
     
     // Validate input
-    if (!body.text || !body.expiration) {
+    if (!body.text) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
-
-    // Calculate expiresAt based on the expiration string
-    const expiresAt = new Date();
-    switch (body.expiration) {
-      case "12 hours":
-        expiresAt.setHours(expiresAt.getHours() + 12);
-        break;
-      case "1 day":
-        expiresAt.setDate(expiresAt.getDate() + 1);
-        break;
-      case "1 week":
-        expiresAt.setDate(expiresAt.getDate() + 7);
-        break;
-      default:
-        return NextResponse.json({ error: 'Invalid expiration value' }, { status: 400 });
     }
 
     let url;
@@ -42,7 +26,6 @@ export async function POST(request: NextRequest) {
 
     const user = new User({ 
       text: body.text, 
-      expiresAt,
       url 
     });
     
@@ -54,8 +37,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ 
       url: user.url, 
       text: user.text, 
-      id: user._id, 
-      expiresAt: user.expiresAt 
+      id: user._id
     });
   } catch (error) {
     console.error('Error in API route:', error);

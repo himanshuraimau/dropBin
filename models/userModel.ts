@@ -3,7 +3,6 @@ import mongoose, { Document, Model } from 'mongoose';
 export interface IUser extends Document {
   url: string;
   text: string;
-  expiresAt: Date;
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
@@ -16,11 +15,6 @@ const UserSchema = new mongoose.Schema<IUser>({
     type: String,
     required: true,
   },
-  expiresAt: {
-    type: Date,
-    required: true,
-    index: true // Add an index for better query performance
-  }
 }, { timestamps: true });
 
 // Add a method to check if the document is expired
