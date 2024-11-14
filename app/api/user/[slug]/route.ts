@@ -4,12 +4,12 @@ import User from '@/models/userModel'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: { slug: string } }
 ) {
   try {
     await dbConnect()
 
-    const { slug } = params
+    const { slug } = context.params
 
     if (!slug) {
       return NextResponse.json({ error: 'Slug parameter missing' }, { status: 400 })
@@ -23,7 +23,7 @@ export async function GET(
     return NextResponse.json(data)
 
   } catch (error) {
-    console.error(error)
+    console.error('Error in GET request:', error)
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
   }
 }

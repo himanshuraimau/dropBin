@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     const user = new User({ 
-      text: body.text, 
+      text: body.text,  
       url 
     });
     
