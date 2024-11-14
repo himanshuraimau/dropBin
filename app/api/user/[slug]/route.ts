@@ -4,12 +4,12 @@ import User from '@/models/userModel'
 
 export async function GET(
   request: NextRequest,
-  context: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     await dbConnect()
 
-    const { slug } = context.params
+    const { slug } = await params
 
     if (!slug) {
       return NextResponse.json({ error: 'Slug parameter missing' }, { status: 400 })
